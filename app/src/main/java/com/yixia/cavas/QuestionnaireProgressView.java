@@ -11,11 +11,29 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
  * 答题进度条样式
+ *
+ * <p>
+ * <com.yixia.cavas.QuestionnaireProgressView
+ * android:id="@+id/questionnaire_progress1"
+ * android:layout_width="match_parent"
+ * android:layout_height="50dp"
+ * android:layout_marginTop="20dp"
+ * android:background="@drawable/shape_question_progress"
+ * android:padding="1dp"
+ * questionstyle:answer_color="@color/questionnaire_answer_color"
+ * questionstyle:answer_error_color="@color/questionnaire_answer_error_color"
+ * questionstyle:select_color="@color/questionnaire_select_color"
+ * questionstyle:default_height="50dp"
+ * questionstyle:default_width="350dp"
+ * questionstyle:text_left_margin="20dp"
+ * questionstyle:text_right_margin="20dp"
+ * questionstyle:text_color="@color/questionnaire_select_color"
+ * questionstyle:text_size="18sp"/>
+ * </p>
  *
  * Created by zhaoxiaopo on 2018/1/13.
  */
