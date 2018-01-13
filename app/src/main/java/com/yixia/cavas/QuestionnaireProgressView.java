@@ -109,11 +109,11 @@ public class QuestionnaireProgressView extends View {
     /**
      * 绘制的文本内容
      */
-    private String mTextValue;
+    private String mTextValue, mTextValue2;
     /**
      * 绘制的字体宽度和高度
      */
-    private Rect mTextRectF;
+    private Rect mTextRectF, mTextRectF2;
 
     /**
      * 该进度条的状态
@@ -173,6 +173,7 @@ public class QuestionnaireProgressView extends View {
         mBackgroundRectF = new RectF();
         mProgressRectF = new RectF();
         mTextRectF = new Rect();
+        mTextRectF2 = new Rect();
 
         mProgressPath = new Path();
     }
@@ -203,45 +204,52 @@ public class QuestionnaireProgressView extends View {
         super.onDraw(canvas);
         //要想保证是圆角，只要保证圆心是高的1／2就可以了
         //先使用clip函数限定画布区域，然后处理进度
+        mProgressPath.addRoundRect(mBackgroundRectF, mHeight / 2, mHeight / 2,
+                Path.Direction.CW);
+        canvas.clipPath(mProgressPath);
         if (QuestionProgressState.ANSWER == mProgressState) {
-            mProgressPath.addRoundRect(mBackgroundRectF, mHeight / 2, mHeight / 2,
-                    Path.Direction.CW);
-            canvas.clipPath(mProgressPath);
             canvas.drawColor(mBackgroundColor);
             mProgressPaint.setColor(mAnswerColor);
             canvas.drawRect(mProgressRectF, mProgressPaint);
             if (!TextUtils.isEmpty(mTextValue)) {
-                canvas.drawText(mTextValue, mBackgroundRectF.width() - mTextRightMargin - mTextRectF.width(),
-                        mBackgroundRectF.height() / 2 + mTextRectF.height() / 2, mTextValuePaint);
+                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
+                        + mTextRectF.height() / 2, mTextValuePaint);
+            }
+            if (!TextUtils.isEmpty(mTextValue2)) {
+                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                        mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
         } else if (QuestionProgressState.ANSWER_ERROR == mProgressState) {
-            mProgressPath.addRoundRect(mBackgroundRectF, mHeight / 2, mHeight / 2,
-                    Path.Direction.CW);
-            canvas.clipPath(mProgressPath);
             canvas.drawColor(mBackgroundColor);
             mProgressPaint.setColor(mAnswerErrorColor);
             canvas.drawRect(mProgressRectF, mProgressPaint);
             if (!TextUtils.isEmpty(mTextValue)) {
-                canvas.drawText(mTextValue, mBackgroundRectF.width() - mTextRightMargin - mTextRectF.width(),
-                        mBackgroundRectF.height() / 2 + mTextRectF.height() / 2, mTextValuePaint);
+                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
+                        + mTextRectF.height() / 2, mTextValuePaint);
+            }
+            if (!TextUtils.isEmpty(mTextValue2)) {
+                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                        mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
         } else if (QuestionProgressState.SElECT == mProgressState){
-            mProgressPath.addRoundRect(mBackgroundRectF, mHeight / 2, mHeight / 2,
-                    Path.Direction.CW);
-            canvas.clipPath(mProgressPath);
             canvas.drawColor(mSelectColor);
             if (!TextUtils.isEmpty(mTextValue)) {
-                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2 + mTextRectF.height() / 2,
-                        mTextValuePaint);
+                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
+                        + mTextRectF.height() / 2, mTextValuePaint);
+            }
+            if (!TextUtils.isEmpty(mTextValue2)) {
+                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                        mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
         } else if (QuestionProgressState.DEFAULT == mProgressState){
-            mProgressPath.addRoundRect(mBackgroundRectF, mHeight / 2, mHeight / 2,
-                    Path.Direction.CW);
-            canvas.clipPath(mProgressPath);
             canvas.drawColor(mBackgroundColor);
             if (!TextUtils.isEmpty(mTextValue)) {
-                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2 + mTextRectF.height() / 2,
-                        mTextValuePaint);
+                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
+                        + mTextRectF.height() / 2, mTextValuePaint);
+            }
+            if (!TextUtils.isEmpty(mTextValue2)) {
+                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                        mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
         }
     }
@@ -250,15 +258,22 @@ public class QuestionnaireProgressView extends View {
      * 此方法需要等待布局加载完成后设置，否则{@link #mBackgroundRectF}的宽高==0
      *
      * @param currentValue 设置进度值，默认选择样式{@link QuestionProgressState#DEFAULT}不需要设置，
-     * @param textValue 设置显示文本内容
+     * @param textValue 设置左侧显示文本内容
+     * @param textValue2 设置右侧显示文本内容
      * @param progressState 设置进度条样式
      */
-    public void setCurrentValue(float currentValue, String textValue, QuestionProgressState progressState) {
+    public void setCurrentValue(float currentValue, String textValue, String textValue2, QuestionProgressState progressState) {
         mProgressState = progressState;
         if (!TextUtils.isEmpty(textValue)) {
             mTextValue = textValue;
             mTextValuePaint.getTextBounds(mTextValue, 0, mTextValue.length(), mTextRectF);
         }
+
+        if (!TextUtils.isEmpty(textValue2)) {
+            mTextValue2 = textValue2;
+            mTextValuePaint.getTextBounds(mTextValue2, 0, mTextValue2.length(), mTextRectF2);
+        }
+
         if (QuestionProgressState.SElECT != mProgressState) {
             mCurrentValue = currentValue;
             mPercent = mCurrentValue / mMaxValue;

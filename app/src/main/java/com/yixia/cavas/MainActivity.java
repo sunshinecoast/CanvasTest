@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
 //            if (mValue <= 100) {
 //                mHandler.sendEmptyMessageDelayed(0, 10);
 //            }
-            mQuestionnaireProgress1.setCurrentValue(50, "1231231",
+            mQuestionnaireProgress1.setCurrentValue(50, "12月4号", "1231231",
                     QuestionnaireProgressView.QuestionProgressState.ANSWER);
-            mQuestionnaireProgress3.setCurrentValue(30, "23123123123",
+            mQuestionnaireProgress3.setCurrentValue(30, "12342342", "1231231",
                     QuestionnaireProgressView.QuestionProgressState.ANSWER_ERROR);
-            mQuestionnaireProgress2.setCurrentValue(0, "你好",
+            mQuestionnaireProgress2.setCurrentValue(0, "你好", "1231231",
                     QuestionnaireProgressView.QuestionProgressState.SElECT);
             return true;
         }
