@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:questionstyle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yixia.cavas.QuestionnaireProgress
+        android:id="@+id/questionnaire_progress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        questionstyle:default_width="350dp"
+        questionstyle:default_height="50dp"
+        questionstyle:default_color="@color/colorAccent"
+        questionstyle:answer_color="@color/colorPrimary"/>
+
+</android.support.constraint.ConstraintLayout>
