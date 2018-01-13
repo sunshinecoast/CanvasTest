@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:questionstyle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.yixia.cavas.QuestionnaireProgress
-        android:id="@+id/questionnaire_progress"
+    <com.yixia.cavas.QuestionnaireProgressView
+        android:id="@+id/questionnaire_progress1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        questionstyle:default_width="350dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_question_progress"
+        android:padding="1dp"
+        questionstyle:answer_color="@color/questionnaire_answer_color"
+        questionstyle:answer_error_color="@color/questionnaire_answer_error_color"
         questionstyle:default_height="50dp"
-        questionstyle:default_color="@color/colorAccent"
-        questionstyle:answer_color="@color/colorPrimary"/>
+        questionstyle:default_width="350dp"
+        questionstyle:select_color="@color/questionnaire_select_color"
+        questionstyle:text_left_margin="20dp"
+        questionstyle:text_right_margin="20dp"
+        questionstyle:text_size="18sp"/>
 
-</android.support.constraint.ConstraintLayout>
+    <com.yixia.cavas.QuestionnaireProgressView
+        android:id="@+id/questionnaire_progress2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_question_progress"
+        android:padding="1dp"
+        questionstyle:answer_color="@color/questionnaire_answer_color"
+        questionstyle:answer_error_color="@color/questionnaire_answer_error_color"
+        questionstyle:default_height="50dp"
+        questionstyle:default_width="350dp"
+        questionstyle:select_color="@color/questionnaire_select_color"
+        questionstyle:text_left_margin="20dp"
+        questionstyle:text_right_margin="20dp"
+        questionstyle:text_size="18sp"/>
+
+    <com.yixia.cavas.QuestionnaireProgressView
+        android:id="@+id/questionnaire_progress3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_question_progress"
+        android:padding="1dp"
+        questionstyle:answer_color="@color/questionnaire_answer_color"
+        questionstyle:answer_error_color="@color/questionnaire_answer_error_color"
+        questionstyle:default_height="50dp"
+        questionstyle:default_width="350dp"
+        questionstyle:select_color="@color/questionnaire_select_color"
+        questionstyle:text_left_margin="20dp"
+        questionstyle:text_right_margin="20dp"
+        questionstyle:text_size="18sp"/>
+
+</LinearLayout>
