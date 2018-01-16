@@ -13,6 +13,7 @@
         <attr name="default_width" format="dimension"/>
         <attr name="default_height" format="dimension"/>
         <attr name="background_color" format="color"/>
+        <attr name="answer_default_color" format="color"/>
         <attr name="answer_error_color" format="color"/>
         <attr name="answer_color" format="color"/>
         <attr name="select_color" format="color"/>

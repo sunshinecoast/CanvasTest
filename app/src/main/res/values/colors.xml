@@ -5,7 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="questionnaire_answer_color">#00df75</color>
-    <color name="questionnaire_answer_error_color">#dddddd</color>
+    <color name="questionnaire_answer_error_color">#ff91b8</color>
+    <color name="questionnaire_answer_default_color">#dddddd</color>
     <color name="questionnaire_select_color">#ff347c</color>
     <color name="questionnaire_default_text_color">#333333</color>
 </resources>

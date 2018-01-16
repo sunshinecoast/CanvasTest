@@ -16,16 +16,9 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-//            mQuestionnaireProgress1.setCurrentValue(mValue++, QuestionnaireProgressView.QuestionProgressState.ANSWER);
-//            if (mValue <= 100) {
-//                mHandler.sendEmptyMessageDelayed(0, 10);
-//            }
-            mQuestionnaireProgress1.setCurrentValue(50, "12月4号", "1231231",
-                    QuestionnaireProgressView.QuestionProgressState.ANSWER);
-            mQuestionnaireProgress3.setCurrentValue(30, "12342342", "1231231",
-                    QuestionnaireProgressView.QuestionProgressState.ANSWER_ERROR);
-            mQuestionnaireProgress2.setCurrentValue(0, "你好", "1231231",
-                    QuestionnaireProgressView.QuestionProgressState.SElECT);
+            mQuestionnaireProgress1.setCurrentValue( "12月4号", "1231231");
+            mQuestionnaireProgress3.setCurrentValue("12342342", "1231231");
+            mQuestionnaireProgress2.setCurrentValue("你好", "1231231");
             return true;
         }
     });
@@ -38,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         mQuestionnaireProgress1 = findViewById(R.id.questionnaire_progress1);
         mQuestionnaireProgress2 = findViewById(R.id.questionnaire_progress2);
         mQuestionnaireProgress3 = findViewById(R.id.questionnaire_progress3);
-//        mQuestionnaireProgress.setCurrentValue(20);
         mHandler.sendEmptyMessageDelayed(0, 1000);
     }
 }

@@ -40,22 +40,13 @@ import android.view.View;
 public class QuestionnaireProgressView extends View {
 
     /**
-     * 样式列表
-     */
-    public enum QuestionProgressState {
-        SElECT, ANSWER, ANSWER_ERROR, DEFAULT
-    }
-
-    /**
      * view的宽高，xml必须设置的值也可以不用设置使用默认值，
      */
     private int mWidth, mHeight;
-
     /**
      * 默认宽高
      */
     private int mDefaultWidth, mDefaultHeight;
-
     /**
      * 默认背景色，可以在xml中定义
      *
@@ -75,29 +66,31 @@ public class QuestionnaireProgressView extends View {
      */
     private int mAnswerErrorColor;
     /**
+     * 默认答案背景色，可以在xml中定义
+     *
+     * @see {@link R.styleable#QuestionnaireStyle_answer_default_color}
+     */
+    private int mAnswerDefaultColor;
+    /**
      * 用户选择答题的颜色
      *
      * @see {@link R.styleable#QuestionnaireStyle_select_color}
      */
     private int mSelectColor;
-
     /**
      * 自定义字体大小
      *
      * @see {@link R.styleable#QuestionnaireStyle_text_size}
      */
     private float mTextValueSize;
-
     /**
      * 自定义字体颜色
      *
      * @see {@link R.styleable#QuestionnaireStyle_text_color}
      */
     private int mTextColor;
-
     private int mTextLeftMargin;
     private int mTextRightMargin;
-
     /**
      * 答案进度条
      */
@@ -106,15 +99,13 @@ public class QuestionnaireProgressView extends View {
      * 默认背景
      */
     private RectF mBackgroundRectF;
-
     private Paint mProgressPaint;
     private Paint mTextValuePaint;
     private Path mProgressPath;
-
     /**
      * 进度最大值
      */
-    private int mMaxValue = 100;
+    private long mMaxValue = 100;
     /**
      * 当前进度值
      */
@@ -123,7 +114,6 @@ public class QuestionnaireProgressView extends View {
      * 进度百分比
      */
     private float mPercent;
-
     /**
      * 绘制的文本内容
      */
@@ -132,7 +122,6 @@ public class QuestionnaireProgressView extends View {
      * 绘制的字体宽度和高度
      */
     private Rect mTextRectF, mTextRectF2;
-
     /**
      * 该进度条的状态
      */
@@ -166,6 +155,8 @@ public class QuestionnaireProgressView extends View {
                 getResources().getColor(R.color.questionnaire_answer_color));
         mAnswerErrorColor = typedArray.getColor(R.styleable.QuestionnaireStyle_answer_error_color,
                 getResources().getColor(R.color.questionnaire_answer_error_color));
+        mAnswerDefaultColor = typedArray.getColor(R.styleable.QuestionnaireStyle_answer_default_color,
+                getResources().getColor(R.color.questionnaire_answer_default_color));
         mSelectColor = typedArray.getColor(R.styleable.QuestionnaireStyle_select_color,
                 getResources().getColor(R.color.questionnaire_select_color));
         mBackgroundColor = typedArray.getColor(R.styleable.QuestionnaireStyle_background_color,
@@ -174,8 +165,10 @@ public class QuestionnaireProgressView extends View {
         mTextColor = typedArray.getColor(R.styleable.QuestionnaireStyle_text_color,
                 getResources().getColor(R.color.questionnaire_default_text_color));
         mTextValueSize = typedArray.getDimension(R.styleable.QuestionnaireStyle_text_size, 15);
-        mTextLeftMargin = typedArray.getDimensionPixelSize(R.styleable.QuestionnaireStyle_text_left_margin, 0);
-        mTextRightMargin = typedArray.getDimensionPixelSize(R.styleable.QuestionnaireStyle_text_right_margin, 0);
+        mTextLeftMargin = typedArray.getDimensionPixelSize(
+                R.styleable.QuestionnaireStyle_text_left_margin, 0);
+        mTextRightMargin = typedArray.getDimensionPixelSize(
+                R.styleable.QuestionnaireStyle_text_right_margin, 0);
         typedArray.recycle();
 
         mProgressPaint = new Paint();
@@ -225,63 +218,66 @@ public class QuestionnaireProgressView extends View {
         mProgressPath.addRoundRect(mBackgroundRectF, mHeight / 2, mHeight / 2,
                 Path.Direction.CW);
         canvas.clipPath(mProgressPath);
-        if (QuestionProgressState.ANSWER == mProgressState) {
+        if (QuestionProgressState.ANSWER == mProgressState
+                || QuestionProgressState.ANSWER_ERROR == mProgressState
+                || QuestionProgressState.ANSWER_DEFAULT == mProgressState) {
             canvas.drawColor(mBackgroundColor);
-            mProgressPaint.setColor(mAnswerColor);
+            if (QuestionProgressState.ANSWER == mProgressState) {
+                mProgressPaint.setColor(mAnswerColor);
+            } else if (QuestionProgressState.ANSWER_ERROR == mProgressState) {
+                mProgressPaint.setColor(mAnswerErrorColor);
+            } else {
+                mProgressPaint.setColor(mAnswerDefaultColor);
+            }
             canvas.drawRect(mProgressRectF, mProgressPaint);
             if (!TextUtils.isEmpty(mTextValue)) {
                 canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
                         + mTextRectF.height() / 2, mTextValuePaint);
             }
             if (!TextUtils.isEmpty(mTextValue2)) {
-                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                canvas.drawText(mTextValue2,
+                        mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
                         mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
-        } else if (QuestionProgressState.ANSWER_ERROR == mProgressState) {
-            canvas.drawColor(mBackgroundColor);
-            mProgressPaint.setColor(mAnswerErrorColor);
-            canvas.drawRect(mProgressRectF, mProgressPaint);
-            if (!TextUtils.isEmpty(mTextValue)) {
-                canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
-                        + mTextRectF.height() / 2, mTextValuePaint);
-            }
-            if (!TextUtils.isEmpty(mTextValue2)) {
-                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
-                        mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
-            }
-        } else if (QuestionProgressState.SElECT == mProgressState){
+        } else if (QuestionProgressState.SElECT == mProgressState) {
             canvas.drawColor(mSelectColor);
             if (!TextUtils.isEmpty(mTextValue)) {
                 canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
                         + mTextRectF.height() / 2, mTextValuePaint);
             }
             if (!TextUtils.isEmpty(mTextValue2)) {
-                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                canvas.drawText(mTextValue2,
+                        mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
                         mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
-        } else if (QuestionProgressState.DEFAULT == mProgressState){
+        } else if (QuestionProgressState.DEFAULT == mProgressState) {
             canvas.drawColor(mBackgroundColor);
             if (!TextUtils.isEmpty(mTextValue)) {
                 canvas.drawText(mTextValue, mTextLeftMargin, mBackgroundRectF.height() / 2
                         + mTextRectF.height() / 2, mTextValuePaint);
             }
             if (!TextUtils.isEmpty(mTextValue2)) {
-                canvas.drawText(mTextValue2, mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
+                canvas.drawText(mTextValue2,
+                        mBackgroundRectF.width() - mTextRightMargin - mTextRectF2.width(),
                         mBackgroundRectF.height() / 2 + mTextRectF2.height() / 2, mTextValuePaint);
             }
         }
     }
 
     /**
+     * 设置最大值
+     */
+    public void setMaxValue(long maxValue) {
+        mMaxValue = maxValue;
+    }
+
+    /**
      * 此方法需要等待布局加载完成后设置，否则{@link #mBackgroundRectF}的宽高==0
      *
-     * @param currentValue 设置进度值，默认选择样式{@link QuestionProgressState#DEFAULT}不需要设置，
-     * @param textValue 设置左侧显示文本内容
+     * @param textValue  设置左侧显示文本内容
      * @param textValue2 设置右侧显示文本内容
-     * @param progressState 设置进度条样式
      */
-    public void setCurrentValue(float currentValue, String textValue, String textValue2, QuestionProgressState progressState) {
-        mProgressState = progressState;
+    public void setCurrentValue(String textValue, String textValue2) {
         if (!TextUtils.isEmpty(textValue)) {
             mTextValue = textValue;
             mTextValuePaint.getTextBounds(mTextValue, 0, mTextValue.length(), mTextRectF);
@@ -291,7 +287,16 @@ public class QuestionnaireProgressView extends View {
             mTextValue2 = textValue2;
             mTextValuePaint.getTextBounds(mTextValue2, 0, mTextValue2.length(), mTextRectF2);
         }
+    }
 
+    /**
+     * 此方法针对显示答案的时候使用，使用动画更新进度到当前值（为了效果好点）
+     *
+     * @param currentValue  设置进度值，默认选择样式{@link QuestionProgressState#DEFAULT}不需要设置，
+     * @param progressState 设置进度条样式
+     */
+    public void updateValue(float currentValue, QuestionProgressState progressState) {
+        mProgressState = progressState;
         if (QuestionProgressState.SElECT != mProgressState) {
             mCurrentValue = currentValue;
             mPercent = mCurrentValue / mMaxValue;
@@ -299,5 +304,20 @@ public class QuestionnaireProgressView extends View {
                     mBackgroundRectF.width() * mPercent, mBackgroundRectF.bottom);
         }
         invalidate();
+    }
+
+    /**
+     * 此方法针对选择答案的时候使用
+     */
+    public void setSelected() {
+        mProgressState = QuestionProgressState.SElECT;
+        invalidate();
+    }
+
+    /**
+     * 样式列表
+     */
+    public enum QuestionProgressState {
+        SElECT, ANSWER, ANSWER_ERROR, ANSWER_DEFAULT, DEFAULT
     }
 }
