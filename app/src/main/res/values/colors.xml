@@ -9,4 +9,8 @@
     <color name="questionnaire_answer_default_color">#dddddd</color>
     <color name="questionnaire_select_color">#ff347c</color>
     <color name="questionnaire_default_text_color">#333333</color>
+
+    <color name="newly_red_dialog_list_top_color_start">#FF19C0</color>
+    <color name="newly_red_dialog_list_top_color_start1">#ce0fC3</color>
+    <color name="newly_red_dialog_list_top_color_end">#B100FF</color>
 </resources>
